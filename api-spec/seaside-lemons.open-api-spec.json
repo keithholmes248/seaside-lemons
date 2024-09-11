@@ -1,0 +1,384 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "uwm1ezt0w5a7g"
+  },
+  "info": {
+    "title": "constituent-contacts",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/users/{firebaseUserId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "firebaseUserId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "GetUserByFirebaseUserId",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "User Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found"
+          }
+        },
+        "operationId": "GetUserByFirebaseUserId",
+        "description": "Retrieve the information of the user with the matching user ID.",
+        "x-stoplight": {
+          "id": "vdutftz5yy28k"
+        }
+      },
+      "put": {
+        "summary": "UpsertUser",
+        "tags": [],
+        "responses": {},
+        "operationId": "UpsertUser",
+        "x-stoplight": {
+          "id": "orn38z6othgh8"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "parameters": [],
+      "post": {
+        "summary": "CreateConstituentContact",
+        "tags": [],
+        "responses": {
+          "2XX": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ConstituentContact"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "CreateConstituentContact",
+        "x-stoplight": {
+          "id": "blkg0rxy8afv6"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/NewConstituentContact"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "SearchConstituentContacts",
+        "tags": [],
+        "responses": {
+          "2XX": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "x-stoplight": {
+                        "id": "3ic4i20awiat3"
+                      },
+                      "items": {
+                        "$ref": "#/components/schemas/ConstituentContact",
+                        "x-stoplight": {
+                          "id": "xk7v5we7mihxr"
+                        }
+                      }
+                    },
+                    "count": {
+                      "type": "number",
+                      "x-stoplight": {
+                        "id": "b5aeymkfl0j42"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "SearchConstituentContacts",
+        "x-stoplight": {
+          "id": "zcae4oh9tnxne"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter",
+            "description": "Adds an exact text filter against fullName"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["givenName", "familyName", "email"]
+            },
+            "in": "query",
+            "name": "orderbyfield"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            },
+            "in": "query",
+            "name": "orderbydirection"
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "count"
+          },
+          {
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 50
+            },
+            "in": "query",
+            "name": "page"
+          },
+          {
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "in": "query",
+            "name": "pagesize"
+          }
+        ]
+      }
+    },
+    "/contacts/confirm-unique-email": {
+      "get": {
+        "summary": "ConfirmUniqueEmailForContact",
+        "tags": [],
+        "responses": {
+          "2XX": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "isUnique": {
+                      "type": "boolean",
+                      "x-stoplight": {
+                        "id": "7jpmxw9bo1jef"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "ConfirmUniqueEmailForContact",
+        "x-stoplight": {
+          "id": "ssxr8uruwzhti"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "email",
+            "description": "email address to confirm uniquness"
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/contacts/csv-for-contacts": {
+      "get": {
+        "summary": "CsvForContacts",
+        "tags": [],
+        "responses": {},
+        "operationId": "csv-for-contacts",
+        "x-stoplight": {
+          "id": "xuhmkqnkz6pj4"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "createdatbegin",
+            "description": "number of seconds since epoch"
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "createdatend",
+            "description": "number of seconds since epoch"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConstituentContact": {
+        "title": "ConstituentContact",
+        "type": "object",
+        "examples": [
+          {
+            "givenName": "Alice",
+            "familyName": "Smith",
+            "email": "alice.smith@gmail.com",
+            "fullName": "Alice Smith",
+            "initials": "AS"
+          }
+        ],
+        "x-stoplight": {
+          "id": "rqley7b2n3u66"
+        },
+        "required": ["givenName", "familyName", "email"],
+        "properties": {
+          "givenName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "eros92d9r4tae"
+            }
+          },
+          "familyName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "7thp9o1fxde63"
+            }
+          },
+          "fullName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "1dznxkbrje9if"
+            }
+          },
+          "initials": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "r50v91zg3mk71"
+            }
+          },
+          "email": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "y816do12zwqxz"
+            },
+            "format": "email"
+          }
+        }
+      },
+      "NewConstituentContact": {
+        "title": "NewConstituentContact",
+        "x-stoplight": {
+          "id": "16iicib2j1bt2"
+        },
+        "type": "object",
+        "examples": [
+          {
+            "id": "9fdb5cc8-d30a-4d3a-9cb3-86104dc73074",
+            "givenName": "Alice",
+            "familyName": "Smith",
+            "email": "alice.smith@gmail.com",
+            "fullName": "Alice Smith",
+            "initials": "AS"
+          }
+        ],
+        "required": ["givenName", "familyName", "email"],
+        "properties": {
+          "givenName": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "User": {
+        "title": "User",
+        "x-stoplight": {
+          "id": "rbnf0yonet3qr"
+        },
+        "type": "object",
+        "properties": {
+          "firebaseUserId": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "igjcpxpyvh0fq"
+            }
+          },
+          "firebaseDisplayName": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "1mesaohoho661"
+            }
+          },
+          "firebaseEmail": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "53ennrcrcw6ip"
+            }
+          },
+          "firebasePhotoUrl": {
+            "type": "string",
+            "x-stoplight": {
+              "id": "l94vhcvb7ogh4"
+            }
+          }
+        }
+      }
+    }
+  }
+}
